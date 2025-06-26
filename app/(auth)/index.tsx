@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
+import { View, Text, Pressable, StyleSheet, Alert, Image } from "react-native";
 import CustomInput from "@/components/CustomInput";
-import { AuthProvider, useAuth } from "@/components/context/AuthProvider";
+import { useAuth } from "@/components/context/AuthProvider";
 import { Link, useRouter } from "expo-router";
-import LottieView from "lottie-react-native";
-import lumiAnimation from "@/assets/lumi.json";
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
@@ -31,13 +29,11 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.animationContainer}>
-        <LottieView
-          source={lumiAnimation}
-          autoPlay
-          loop
-          style={styles.animation}
-          resizeMode="cover"
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("@/assets/images/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
         />
       </View>
       <Text style={[styles.headerText, styles.text]}>Login</Text>
@@ -79,32 +75,29 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#00003C",
-    display: "flex",
-    height: "100%",
+    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
     padding: 10,
     gap: 20,
   },
-  inputContainer: {
-    display: "flex",
-    width: "100%",
-    gap: 10,
-  },
-  buttonContainer: {
-    display: "flex",
-    width: "100%",
-    gap: 10,
-  },
-  animationContainer: {
+  logoContainer: {
     width: "100%",
     height: 200,
     alignItems: "center",
     justifyContent: "center",
   },
-  animation: {
+  logo: {
+    width: 150,
+    height: 150,
+  },
+  inputContainer: {
     width: "100%",
-    height: "100%",
+    gap: 10,
+  },
+  buttonContainer: {
+    width: "100%",
+    gap: 10,
   },
   text: {
     color: "white",
