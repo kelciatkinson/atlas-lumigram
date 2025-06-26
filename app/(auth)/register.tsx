@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { View, Text, Pressable, Alert, StyleSheet } from "react-native";
+import { View, Text, Pressable, Alert, StyleSheet, Image } from "react-native";
 import CustomInput from "@/components/CustomInput";
 import { useAuth } from "@/components/context/AuthProvider";
 import { useRouter } from "expo-router";
-import LottieView from "lottie-react-native";
-import lumiAnimation from "@/assets/lumi.json";
+import logo from "@/assets/images/logo.png";
 
 export default function RegisterScreen() {
   const { signIn } = useAuth();
@@ -32,13 +31,12 @@ export default function RegisterScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.animationContainer}>
-        <LottieView
-          source={lumiAnimation}
-          autoPlay
-          loop
-          style={styles.animation}
-          resizeMode="cover"
+      <View style={styles.logoContainer}>
+        <Image
+          source={logo}
+          style={styles.logo}
+          resizeMode="contain"
+          accessibilityLabel="Lumigram logo"
         />
       </View>
       <Text style={[styles.text, styles.headerText]}>Register</Text>
@@ -98,15 +96,15 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 10,
   },
-  animationContainer: {
+  logoContainer: {
     width: "100%",
     height: 200,
     alignItems: "center",
     justifyContent: "center",
   },
-  animation: {
-    width: "100%",
-    height: "100%",
+  logo: {
+    width: 150,
+    height: 150,
   },
   text: {
     color: "white",
