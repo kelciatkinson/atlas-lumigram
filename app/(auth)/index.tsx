@@ -5,7 +5,7 @@ import { useAuth } from "@/components/context/AuthProvider";
 import { Link, useRouter } from "expo-router";
 
 export default function LoginScreen() {
-  const { signIn } = useAuth();
+  const { logIn } = useAuth();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -23,7 +23,7 @@ export default function LoginScreen() {
       email: `${email}`,
     };
 
-    signIn(fakeUser);
+    logIn(fakeUser);
     router.push("/(tabs)");
   };
 

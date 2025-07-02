@@ -2,23 +2,49 @@ import React, { useState } from "react";
 import { View, StyleSheet, Pressable, Text, Alert } from "react-native";
 import CustomInput from "@/components/CustomInput";
 import ImagePickerComponent from "@/components/ImagePicker";
-import { FlipInEasyX } from "react-native-reanimated";
+import upload from "@/lib/storage";
+import firestore from "@/lib/firestore";
+import { auth } from "@/firebaseConfig";
 
-export default function Page() {
+async function save(
+  imageUri: string | null,
+  caption: string | null,
+  handleReset: () => void
+) {
+  if (!imageUri) {
+    Alert.alert("Error", "No image selected!");
+    return;
+  }
+
+  try {
+    const name = imageUri.split("/").pop();
+    if (!name) throw new Error("Invalid file name");
+    const { downloadURL } = await upload(imageUri, name);
+
+    await firestore.addPost({
+      caption: caption || "",
+      image: downloadURL,
+      createdAt: new Date(),
+      createdBy: auth.currentUser?.uid!!,
+    });
+
+    Alert.alert("Success", "Image uploaded!");
+    console.log("Post successfully added to Firestore");
+
+    handleReset(); // This will likely change to go to the post in the future
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    Alert.alert("Upload Failed", "Please try again.");
+  }
+}
+
+export default function AddPostScreen() {
   const [caption, setCaption] = useState<string | undefined>();
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   const handleImageSelected = (uri: string | null) => {
     console.log("Image selected:", uri);
     setImageUri(uri);
-  };
-
-  const handleSave = () => {
-    if (!imageUri) {
-      Alert.alert("Error", "Please select an image first");
-      return;
-    }
-    Alert.alert("Success", "Post created successfully!");
   };
 
   const handleReset = () => {
@@ -47,13 +73,16 @@ export default function Page() {
         <View style={styles.buttonContainer}>
           <Pressable
             style={[styles.button, styles.buttonOne]}
-            onPress={handleSave}
+            onPress={() => save(imageUri, caption, handleReset)}
           >
             <Text style={styles.text}>Save</Text>
           </Pressable>
 
-          <Pressable style={[styles.button]} onPress={handleReset}>
-            <Text>Reset</Text>
+          <Pressable
+            style={[styles.button, styles.buttonTwo]}
+            onPress={handleReset}
+          >
+            <Text style={{ color: "black" }}>Reset</Text>
           </Pressable>
         </View>
       </View>
@@ -94,5 +123,9 @@ const styles = StyleSheet.create({
   },
   buttonOne: {
     backgroundColor: "#1ED2AF",
+  },
+  buttonTwo: {
+    borderWidth: 2,
+    borderColor: "black",
   },
 });

@@ -2,9 +2,9 @@ import { Stack } from "expo-router";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { AuthProvider } from "@/components/context/AuthProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { View } from "react-native";
+import { AuthProvider } from "@/components/context/AuthProvider";
 
 SplashScreen.preventAutoHideAsync();
 
