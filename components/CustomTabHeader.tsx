@@ -4,7 +4,7 @@ import { router, usePathname } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function CustomHeader({ backgroundColor }) {
-  const { user, signOut, isSignedIn } = useAuth();
+  const { user, logOut, isSignedIn } = useAuth();
   const pathname = usePathname();
 
   const getTitle = () => {
@@ -30,7 +30,7 @@ export default function CustomHeader({ backgroundColor }) {
 
   const handleLogout = async () => {
     // First sign out using the auth context
-    await signOut();
+    await logOut();
 
     // Then explicitly navigate to the auth screen
     router.replace("/(auth)");

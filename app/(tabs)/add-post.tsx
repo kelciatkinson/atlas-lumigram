@@ -31,7 +31,7 @@ async function save(
     Alert.alert("Success", "Image uploaded!");
     console.log("Post successfully added to Firestore");
 
-    handleReset(); // This will likely change to go to the post in the future
+    handleReset();
   } catch (error) {
     console.error("Error uploading image:", error);
     Alert.alert("Upload Failed", "Please try again.");

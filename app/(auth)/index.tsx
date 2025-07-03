@@ -17,13 +17,7 @@ export default function LoginScreen() {
       return;
     }
 
-    const fakeUser = {
-      id: "1",
-      displayName: email,
-      email: `${email}`,
-    };
-
-    logIn(fakeUser);
+    logIn(email, password);
     router.push("/(tabs)");
   };
 
